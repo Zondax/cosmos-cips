@@ -42,12 +42,14 @@ submitted to the network.
 It opens the door to sign-in in dApps and webs and signing of files, text and objects.
 
 Command-line applications will allow users to sign and verify files with commands like:
+
  + `simd keys sign [file] --from [key_name] > signed_file.json`
  + `simd keys verify [file]`
 
 
 Websites and applications will be able to prove account ownership with a human-readable message instead of a random challenge.
 An example format might look like this:
+
 ```
 Prove account ownership to
 https://myApp.com
@@ -69,11 +71,11 @@ Off-chain signed messages should resemble Cosmos SDK messages but **must not** c
 
 An off-chain transaction follows these rules:
 
- * the memo must be empty
- * nonce, sequence number must be equal to 0
- * chain-id must be equal to “”
- * fee gas must be equal to 0
- * fee amount must be an empty array
+ + the memo must be empty
+ + nonce, sequence number must be equal to 0
+ + chain-id must be equal to “”
+ + fee gas must be equal to 0
+ + fee amount must be an empty array
 
 Verification of an off-chain transaction follows the same rules as an on-chain one, except for the specification
 differences highlighted above.
@@ -97,6 +99,7 @@ Application developers have the discretion to determine how `Data` should be han
 serialization and deserialization processes and specifying the object that Data represents within their context.
 
 Proto definition:
+
 ```protobuf
 // MsgSignArbitraryData defines an arbitrary, general-purpose, off-chain message
 message MsgSignArbitraryData {
@@ -111,6 +114,7 @@ message MsgSignArbitraryData {
 ```
 
 Signed MsgSignArbitraryData json example:
+
 ```json
 {
   "type": "cosmos-sdk/StdTx",
@@ -153,6 +157,7 @@ application requesting off-chain message signing. `URI` refers to the resource t
 used to prevent replay attacks. `Issued-at` the time when the message was generated.
 
 Proto definition:
+
 ```protobuf
 // MsgSignArbitraryData defines an arbitrary, general-purpose, off-chain message
 message MsgSignIn {
@@ -171,6 +176,7 @@ message MsgSignIn {
 ```
 
 Signed MsgSignIn json example:
+
 ```json
 {
   "type": "cosmos-sdk/StdTx",
@@ -219,6 +225,7 @@ By creating different messages for different use cases, this design fulfills the
 
 Implementing this design aligns with the long-standing requests from the community. Several zones have implemented their
 own arbitrary messages based on ADR-036:
+
  + [Sommelier](https://github.com/cosmos/cosmos-sdk/pull/7727#issuecomment-821201911)
  + [Aleph.im](https://github.com/cosmos/cosmos-sdk/pull/7727#issuecomment-821776061)
  + [Secret](https://github.com/scrtlabs/cosmos-sdk/compare/v0.9.1-scrt...v0.9.2-scrt)
@@ -235,13 +242,13 @@ application sign-in.
 
 There was a prior attempt to implement this in the sdk with [ADR-036](https://github.com/cosmos/cosmos-sdk/blob/v0.50.0-rc.1/docs/architecture/adr-036-arbitrary-signature.md).
 However, a consensus was not achieved on ADR-036, as the community demanded a way for sign-in method that ADR-036
-did not provide. This is the main reason for defining two different messages in this CIP.
-One for arbitrary data and the other for sing-in.
+did not provide. This is the main reason for defining two different messages in this CIP. One for arbitrary data and
+the other for sing-in.
 
 
 ## Unresolved Questions
 
-- Is defining different messages per use case the best approach, or could a protobuf with a `oneof` be sufficient?
+Is defining different messages per use case the best approach, or could a protobuf with a `oneof` be sufficient?
 
 ## Backwards Compatibility
 
