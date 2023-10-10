@@ -249,6 +249,7 @@ the other for sing-in.
 ## Unresolved Questions
 
 Is defining different messages per use case the best approach, or could a protobuf with a `oneof` be sufficient?
+
 Should `Data` in `MsgSignArbitraryData` have a max length?
 
 ## Backwards Compatibility
