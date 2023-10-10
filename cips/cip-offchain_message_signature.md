@@ -90,7 +90,7 @@ All off-chain messages will be of the type `offchain/messageKind`.
 The first message added to the `offchain` package is `MsgSignArbitraryData`.
 
 `MsgSignArbitraryData` enables developers to sign arbitrary bytes that are valid only in an off-chain context. Here,
-`AppDomain` represents the application requesting off-chain message signing, while `Signer` is the account address of
+`AppDomain` represents the application requesting off-chain message signing, while `signerAddress` is the account address of
 the  signer. `Data` consists of arbitrary bytes that can represent various forms of data, including text, files, or
 objects.  The decision on how to deserialize, serialize, and interpret `Data` is left to the application developers,
 depending on their specific use case.
@@ -103,11 +103,11 @@ Proto definition:
 ```protobuf
 // MsgSignArbitraryData defines an arbitrary, general-purpose, off-chain message
 message MsgSignArbitraryData {
-  option (cosmos.msg.v1.signer) = "signer";
+  option (cosmos.msg.v1.signer) = "signerAddress";
   // AppDomain is the application requesting off-chain message signing
   string appDomain = 1;
   // Signer is the sdk.AccAddress of the message signer
-  string signer = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string signerAddress = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   // Data represents the raw bytes of the content that is signed (text, json, etc)
   bytes data = 3 [(gogoproto.jsontag) = "data"];
 }
@@ -124,7 +124,7 @@ Signed MsgSignArbitraryData json example:
         "type": "offchain/MsgSignArbitraryData",
         "value": {
           "appDomain": "simd",
-          "signer": "cosmos1hftz5ugqmpg9243xeegsqqav62f8hnywsjr4xr",
+          "signerAddress": "cosmos1hftz5ugqmpg9243xeegsqqav62f8hnywsjr4xr",
           "data": "cmFuZG9t"
         }
       }
@@ -153,7 +153,7 @@ The second message added to the `offchain` package is `MsgSignIn`.
 
 `MsgSignIn` enables the proof of wallet ownership for applications sign-in. In this context, `AppDomain` is the
 application requesting off-chain message signing. `URI` refers to the resource that is the subject of the signing.
-`Signer` is the account address of the signer. `Nonce` is a random string typically chosen by the relying on party and
+`signerAddress` is the account address of the signer. `Nonce` is a random string typically chosen by the relying on party and
 used to prevent replay attacks. `Issued-at` the time when the message was generated.
 
 Proto definition:
@@ -161,13 +161,13 @@ Proto definition:
 ```protobuf
 // MsgSignArbitraryData defines an arbitrary, general-purpose, off-chain message
 message MsgSignIn {
-  option (cosmos.msg.v1.signer) = "signer";
+  option (cosmos.msg.v1.signer) = "signerAddress";
   // AppDomain is the application requesting off-chain message signing
   string appDomain = 1;
   // Uri is the resource that is the subject of the signing
   string uri = 2;
   // Signer is the sdk.AccAddress of the message signer
-  string signer = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string signerAddress = 3 [(cosmos_proto.scalar) = "cosmos.AddressString"];
   // Nonce is a random string
   string nonce = 4;
   // Issued-at is the time when the message was generated
@@ -187,7 +187,7 @@ Signed MsgSignIn json example:
         "value": {
           "appDomain": "exampleSwap",
           "uri": "https://exampleSwap.com/login",
-          "signer": "cosmos1hftz5ugqmpg9243xeegsqqav62f8hnywsjr4xr",
+          "signerAddress": "cosmos1hftz5ugqmpg9243xeegsqqav62f8hnywsjr4xr",
           "nonce": "14368412",
           "issued-at": "2023-10-10T16:25:24Z"
         }
@@ -249,6 +249,7 @@ the other for sing-in.
 ## Unresolved Questions
 
 Is defining different messages per use case the best approach, or could a protobuf with a `oneof` be sufficient?
+Should `Data` in `MsgSignArbitraryData` have a max length?
 
 ## Backwards Compatibility
 
