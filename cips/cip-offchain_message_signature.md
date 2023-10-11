@@ -56,7 +56,7 @@ https://myApp.com
 
   "appDomain": "myApp",
   "uri": "https://myApp.com/",
-  "signer": "cosmos1hftz5ugqmpg9243xeegsqqav62f8hnywsjr4xr",
+  "signerAddress": "cosmos1hftz5ugqmpg9243xeegsqqav62f8hnywsjr4xr",
   "nonce": "14368412",
   "issued-at": "2023-10-10T10:10:10Z"
 ```
@@ -213,7 +213,7 @@ Signed MsgSignIn json example:
 
 ## Drawbacks
 
-This CIP requires a fixed relationship between an account address and a public key. That means it won't work if [ADR-036](https://github.com/cosmos/cosmos-sdk/blob/v0.50.0-rc.1/docs/architecture/adr-034-account-rekeying.md) 
+This CIP requires a fixed relationship between an account address and a public key. That means it won't work if [ADR-034](https://github.com/cosmos/cosmos-sdk/blob/v0.50.0-rc.1/docs/architecture/adr-034-account-rekeying.md) 
 is implemented.
 
 Doesn't work with multisig accounts.
@@ -258,7 +258,7 @@ Backwards compatibility is guaranteed as this CIP introduces new messages but do
 
 ## Security Considerations
 
-It is important to notice that the `Data` field in `MsgSignArbitraryData` consists of bytes,which means it could be
+It is important to notice that the `Data` field in `MsgSignArbitraryData` consists of bytes, which means it could be
 non-human-readable.
 
 There are no more security considerations as the messages will not be on-chain.
